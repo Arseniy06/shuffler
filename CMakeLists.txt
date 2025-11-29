@@ -3,4 +3,4 @@ set(PROJECT_VERSION 0.0.1)
 
 project(Shuffler)
 
-add_executable(Shuffler.exe main.cpp)
+add_executable(Shuffler main.cpp)
