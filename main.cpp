@@ -95,7 +95,28 @@ void demo(){
     std::cout<<quest.que()<<std::endl;
 }
 
+void generate_set(std::string set_file, std::vector<Question> questions, int set_size){
+    std::ofstream questions_file(set_file+"_questions.txt");
+    std::ofstream answers_file(set_file+"_answers.txt");
+    if (!questions_file.is_open()||!answers_file.is_open()){
+        std::cout<<"Failed to create file "<<set_file<<std::endl;
+    }
+    std::vector<Question> set;
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(0,1000);
+    for (int i = 0;i<set_size;i++){
+        set.push_back(questions[dist6(rng)%size(questions)]);
+    }
+    for(int i = 0; i<set_size;i++){
+        questions_file<<set[i].que()<<std::endl;
+        answers_file<<set[i].ans()<<std::endl;
+    }
+}
+
 int main(){
+    int sets_number = 3;
+    int sets_size = 30;
     int questions_created = 1;
     std::vector<Question> questions;
     std::ifstream input_file("dataset.txt");
@@ -146,5 +167,8 @@ int main(){
     }
     questionsfile.close();
     answersfile.close();
+    for (int i = 1; i<=sets_number;i++){
+        generate_set("set"+std::to_string(i),questions,sets_size);
+    }
     return 0;
 }
